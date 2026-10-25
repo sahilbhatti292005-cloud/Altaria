@@ -1,0 +1,149 @@
+{
+  "users": [
+    {
+      "id": "usr_omkar_01",
+      "fullName": "Omkar Bendre",
+      "username": "omkarb",
+      "email": "omkar.bendre@example.com",
+      "passwordHash": "ed578b4e1518466ddf0a3642e734ab223c890a9fc7af7fd17bcb9c375efda7d2",
+      "contact": "+91 98765 43210",
+      "qualification": "B.E. Computer Engineering",
+      "designation": "Student",
+      "department": "Computer Engineering",
+      "organization": "Dr. Vithalrao Vikhe Patil COE, Ahmednagar",
+      "createdAt": "2026-04-18T09:00:00.000Z"
+    }
+  ],
+  "history": [
+    {
+      "id": "run_seed_01",
+      "imageName": "sat_image_01.jpg",
+      "dateLabel": "Apr 26, 2025 10:30 AM",
+      "createdAt": "2025-04-26T10:30:00.000Z",
+      "frameCount": 2,
+      "status": "Completed",
+      "presetId": "bohemia_valley",
+      "metrics": {
+        "psnrDb": 32.64,
+        "ssim": 0.934,
+        "mse": 35.41,
+        "cloudCoveragePct": 58,
+        "fogCoveragePct": 22,
+        "totalObstructionPct": 68,
+        "residualObstructionPct": 1.8,
+        "hasGroundTruth": true
+      },
+      "options": {
+        "generateHeatmap": true,
+        "enableComparison": true,
+        "sarStructuralGuidance": true,
+        "architecture": "temporal_resnet3d"
+      },
+      "datasetSource": "RICE1"
+    },
+    {
+      "id": "run_seed_02",
+      "imageName": "sat_image_02.jpg",
+      "dateLabel": "Apr 25, 2025 02:15 PM",
+      "createdAt": "2025-04-25T14:15:00.000Z",
+      "frameCount": 3,
+      "status": "Completed",
+      "presetId": "amazon_canopy",
+      "metrics": {
+        "psnrDb": 33.42,
+        "ssim": 0.946,
+        "mse": 29.58,
+        "cloudCoveragePct": 49,
+        "fogCoveragePct": 18,
+        "totalObstructionPct": 61,
+        "residualObstructionPct": 1.4,
+        "hasGroundTruth": true
+      },
+      "options": {
+        "generateHeatmap": true,
+        "enableComparison": true,
+        "sarStructuralGuidance": true,
+        "architecture": "uncrtaints_attention"
+      },
+      "datasetSource": "RICE2"
+    },
+    {
+      "id": "run_seed_03",
+      "imageName": "sat_image_03.jpg",
+      "dateLabel": "Apr 24, 2025 11:20 AM",
+      "createdAt": "2025-04-24T11:20:00.000Z",
+      "frameCount": 2,
+      "status": "Completed",
+      "presetId": "bavaria_alpine",
+      "metrics": {
+        "psnrDb": 31.85,
+        "ssim": 0.921,
+        "mse": 42.47,
+        "cloudCoveragePct": 54,
+        "fogCoveragePct": 21,
+        "totalObstructionPct": 65,
+        "residualObstructionPct": 2.1,
+        "hasGroundTruth": true
+      },
+      "options": {
+        "generateHeatmap": true,
+        "enableComparison": true,
+        "sarStructuralGuidance": true,
+        "architecture": "temporal_resnet3d"
+      },
+      "datasetSource": "RICE2"
+    },
+    {
+      "id": "run_seed_04",
+      "imageName": "sat_image_04.jpg",
+      "dateLabel": "Apr 23, 2025 04:45 PM",
+      "createdAt": "2025-04-23T16:45:00.000Z",
+      "frameCount": 3,
+      "status": "Completed",
+      "presetId": "rhine_delta",
+      "metrics": {
+        "psnrDb": 34.11,
+        "ssim": 0.952,
+        "mse": 25.24,
+        "cloudCoveragePct": 42,
+        "fogCoveragePct": 16,
+        "totalObstructionPct": 53,
+        "residualObstructionPct": 1.1,
+        "hasGroundTruth": true
+      },
+      "options": {
+        "generateHeatmap": true,
+        "enableComparison": true,
+        "sarStructuralGuidance": true,
+        "architecture": "uncrtaints_attention"
+      },
+      "datasetSource": "RICE1"
+    },
+    {
+      "id": "run_seed_05",
+      "imageName": "sat_image_05.jpg",
+      "dateLabel": "Apr 22, 2025 09:10 AM",
+      "createdAt": "2025-04-22T09:10:00.000Z",
+      "frameCount": 2,
+      "status": "Completed",
+      "presetId": "deccan_watershed",
+      "metrics": {
+        "psnrDb": 31.29,
+        "ssim": 0.914,
+        "mse": 48.31,
+        "cloudCoveragePct": 62,
+        "fogCoveragePct": 24,
+        "totalObstructionPct": 70,
+        "residualObstructionPct": 2.4,
+        "hasGroundTruth": true
+      },
+      "options": {
+        "generateHeatmap": true,
+        "enableComparison": true,
+        "sarStructuralGuidance": false,
+        "architecture": "temporal_resnet3d"
+      },
+      "datasetSource": "RICE2"
+    }
+  ]
+}

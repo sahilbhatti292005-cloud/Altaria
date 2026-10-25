@@ -1,0 +1,6 @@
+{
+  "name": "Altaria — Satellite Image Restoration",
+  "description": "A deep learning and multi-temporal remote sensing workspace for cloud and fog removal in optical satellite imagery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
