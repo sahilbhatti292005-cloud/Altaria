@@ -66,10 +66,14 @@ export function ResultsView({
   const filteredHistory = history.filter((item) => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return true;
+    const sourceLabel =
+      item.datasetSource === 'CUSTOM' || (!item.datasetSource && !item.presetId)
+        ? 'uploaded'
+        : 'sample scene';
     return (
       item.imageName.toLowerCase().includes(q) ||
       item.dateLabel.toLowerCase().includes(q) ||
-      (item.datasetSource || '').toLowerCase().includes(q)
+      sourceLabel.includes(q)
     );
   });
 
@@ -86,7 +90,7 @@ export function ResultsView({
     : activeResult.groundTruthSource === 'user_uploaded'
     ? 'Uploaded original image'
     : activeResult.groundTruthSource === 'paired_benchmark'
-    ? `${activeResult.datasetSource} clean image`
+    ? 'Clean reference image'
     : 'Reference clean image';
 
   const getComparisonImages = () => {
@@ -185,7 +189,7 @@ export function ResultsView({
                 No Results Yet
               </p>
               <p className="mt-1.5 text-xs text-[#8EA6C0]">
-                Upload a satellite image or choose a RICE1 / RICE2 sample on the Dashboard.
+                Upload a satellite image or choose a sample scene on the Dashboard.
               </p>
               <div className="mt-5 flex justify-center gap-3">
                 <button
@@ -717,7 +721,7 @@ export function ResultsView({
                     Recommended Images &amp; Related Data
                   </h2>
                   <p className="mt-1 text-xs text-[#88A2BE]">
-                    Similar satellite scenes from RICE1 and RICE2 and helpful map layers.
+                    Similar satellite scenes and helpful map layers based on surface features and cloud cover.
                   </p>
                 </div>
 
@@ -746,7 +750,7 @@ export function ResultsView({
                             )}
                             <div className="min-w-0">
                               <div className="font-mono text-[11px] text-[#38BDF8] tabular-nums">
-                                {rec.dataset} · {rec.similarityPct}% match
+                                {rec.sampleCode} · {rec.similarityPct}% match
                               </div>
                               <h3 className="mt-0.5 truncate text-xs font-semibold text-white">
                                 {rec.title}
@@ -819,7 +823,7 @@ export function ResultsView({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by image name or dataset..."
+                placeholder="Search by image name or date..."
                 className="w-full rounded-lg border border-[#1E3856] bg-[#081322] py-2 pl-9 pr-3 text-xs text-white placeholder-[#607B98] focus:border-[#0EA5E9] focus:outline-none"
               />
             </div>
@@ -871,7 +875,10 @@ export function ResultsView({
                           {item.imageName}
                         </td>
                         <td className="px-4 py-3.5 font-mono text-[#9DB4CC] whitespace-nowrap">
-                          {item.datasetSource || (item.presetId ? 'RICE1' : 'CUSTOM')}
+                          {item.datasetSource === 'CUSTOM' ||
+                          (!item.datasetSource && !item.presetId)
+                            ? 'Uploaded'
+                            : 'Sample Scene'}
                         </td>
                         <td className="px-4 py-3.5 font-mono text-[#A8BFD6] tabular-nums whitespace-nowrap">
                           {item.dateLabel}

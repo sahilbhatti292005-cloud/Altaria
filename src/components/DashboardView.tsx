@@ -214,7 +214,7 @@ export function DashboardView({
             Welcome, {user.fullName}
           </h1>
           <p className="mt-1 text-sm text-[#8EA6C0]">
-            Upload a satellite image or choose a sample from RICE1 or RICE2.
+            Upload a satellite image or choose a sample satellite scene below.
           </p>
         </div>
 
@@ -241,7 +241,7 @@ export function DashboardView({
             }`}
           >
             <Database className="h-3.5 w-3.5" />
-            RICE1 Dataset
+            Light Cloud Samples
           </button>
           <button
             type="button"
@@ -253,7 +253,7 @@ export function DashboardView({
             }`}
           >
             <Database className="h-3.5 w-3.5" />
-            RICE2 Dataset
+            Dense Cloud Samples
           </button>
         </div>
       </div>
@@ -273,8 +273,8 @@ export function DashboardView({
                 {sourceTab === 'upload'
                   ? 'Upload Satellite Image'
                   : sourceTab === 'RICE1'
-                  ? 'RICE1 Dataset — Light Clouds'
-                  : 'RICE2 Dataset — Dense Clouds'}
+                  ? 'Sample Scenes — Light Clouds'
+                  : 'Sample Scenes — Dense Clouds'}
               </h2>
             </div>
             <span className="font-mono text-xs text-[#88A2BE] tabular-nums">
@@ -420,7 +420,9 @@ export function DashboardView({
                   <strong className="font-semibold text-white">
                     {stagedImages[0].datasetSource === 'CUSTOM'
                       ? 'Uploaded Image'
-                      : stagedImages[0].datasetSource}
+                      : stagedImages[0].datasetSource === 'RICE1'
+                      ? 'Sample Scene (Light Cloud)'
+                      : 'Sample Scene (Dense Cloud)'}
                   </strong>
                 </span>
               )}
@@ -566,7 +568,7 @@ export function DashboardView({
             <ol className="mt-3 space-y-2 text-xs leading-relaxed text-[#9DB4CC]">
               <li>
                 <strong className="text-[#DCE8F5]">1. Select Image:</strong>{' '}
-                Upload your own satellite photo or pick a sample from RICE1 or RICE2.
+                Upload your own satellite photo or pick one of the built-in sample scenes.
               </li>
               <li>
                 <strong className="text-[#DCE8F5]">2. Preview &amp; Check Clouds:</strong>{' '}

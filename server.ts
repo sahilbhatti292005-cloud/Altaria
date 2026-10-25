@@ -50,7 +50,7 @@ interface CatalogPresetEntry {
 const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   {
     id: 'bohemia_valley',
-    sampleCode: 'RICE1-014',
+    sampleCode: 'SAT-014',
     dataset: 'RICE1',
     title: 'Elbe River & Farmland Mosaic',
     region: 'Central Bohemia · Thin Cloud Veil',
@@ -63,7 +63,7 @@ const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   },
   {
     id: 'rhine_delta',
-    sampleCode: 'RICE1-082',
+    sampleCode: 'SAT-082',
     dataset: 'RICE1',
     title: 'Rhine Agricultural Polder Grid',
     region: 'South Holland · Filmy Cirrus',
@@ -76,7 +76,7 @@ const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   },
   {
     id: 'coastal_estuary',
-    sampleCode: 'RICE1-195',
+    sampleCode: 'SAT-195',
     dataset: 'RICE1',
     title: 'Konkan Tidal Estuary & Sandbars',
     region: 'Western Coast · Marine Haze',
@@ -89,7 +89,7 @@ const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   },
   {
     id: 'amazon_canopy',
-    sampleCode: 'RICE2-041',
+    sampleCode: 'SAT-041',
     dataset: 'RICE2',
     title: 'Tapajos Tributary & Canopy',
     region: 'Para Basin · Dense Cumulus & Mask',
@@ -102,7 +102,7 @@ const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   },
   {
     id: 'bavaria_alpine',
-    sampleCode: 'RICE2-118',
+    sampleCode: 'SAT-118',
     dataset: 'RICE2',
     title: 'Upper Bavaria Pre-Alpine Valley',
     region: 'Southern Germany · Cumulus & Shadow',
@@ -115,7 +115,7 @@ const SERVER_RICE_CATALOG: CatalogPresetEntry[] = [
   },
   {
     id: 'deccan_watershed',
-    sampleCode: 'RICE2-264',
+    sampleCode: 'SAT-264',
     dataset: 'RICE2',
     title: 'Pravara Irrigated Watershed',
     region: 'Deccan Plateau · Monsoon Cumulus',
@@ -167,7 +167,7 @@ function createSeedDatabase(): AltariaDatabase {
   const seedHistory: HistoryRecord[] = [
     {
       id: 'run_seed_01',
-      imageName: 'RICE1_014_elbe_valley.png',
+      imageName: 'sat_014_elbe_valley.png',
       dateLabel: 'Apr 26, 2025 10:30 AM',
       createdAt: '2025-04-26T10:30:00.000Z',
       frameCount: 2,
@@ -188,7 +188,7 @@ function createSeedDatabase(): AltariaDatabase {
     },
     {
       id: 'run_seed_02',
-      imageName: 'RICE2_041_amazon_canopy.png',
+      imageName: 'sat_041_amazon_canopy.png',
       dateLabel: 'Apr 25, 2025 02:15 PM',
       createdAt: '2025-04-25T14:15:00.000Z',
       frameCount: 3,
@@ -209,7 +209,7 @@ function createSeedDatabase(): AltariaDatabase {
     },
     {
       id: 'run_seed_03',
-      imageName: 'RICE2_118_bavaria_alpine.png',
+      imageName: 'sat_118_bavaria_alpine.png',
       dateLabel: 'Apr 24, 2025 11:20 AM',
       createdAt: '2025-04-24T11:20:00.000Z',
       frameCount: 2,
@@ -230,7 +230,7 @@ function createSeedDatabase(): AltariaDatabase {
     },
     {
       id: 'run_seed_04',
-      imageName: 'RICE1_082_rhine_polder.png',
+      imageName: 'sat_082_rhine_polder.png',
       dateLabel: 'Apr 23, 2025 04:45 PM',
       createdAt: '2025-04-23T16:45:00.000Z',
       frameCount: 2,
@@ -251,7 +251,7 @@ function createSeedDatabase(): AltariaDatabase {
     },
     {
       id: 'run_seed_05',
-      imageName: 'RICE2_264_deccan_watershed.png',
+      imageName: 'sat_264_deccan_watershed.png',
       dateLabel: 'Apr 22, 2025 09:10 AM',
       createdAt: '2025-04-22T09:10:00.000Z',
       frameCount: 2,
@@ -297,17 +297,25 @@ function loadDatabase(): AltariaDatabase {
     }
     let migrated = false;
     parsed.history = parsed.history.map((item) => {
-      if (!item.datasetSource) {
+      let nextItem = item;
+      if (/^rice[12]?[-_]/i.test(nextItem.imageName)) {
         migrated = true;
-        const catalogEntry = item.presetId
-          ? SERVER_RICE_CATALOG.find((c) => c.id === item.presetId)
+        nextItem = {
+          ...nextItem,
+          imageName: nextItem.imageName.replace(/^rice[12]?[-_]/i, 'sat_'),
+        };
+      }
+      if (!nextItem.datasetSource) {
+        migrated = true;
+        const catalogEntry = nextItem.presetId
+          ? SERVER_RICE_CATALOG.find((c) => c.id === nextItem.presetId)
           : undefined;
-        return {
-          ...item,
+        nextItem = {
+          ...nextItem,
           datasetSource: catalogEntry ? catalogEntry.dataset : 'CUSTOM',
         };
       }
-      return item;
+      return nextItem;
     });
     if (migrated) {
       fs.writeFileSync(DB_FILE, JSON.stringify(parsed, null, 2), 'utf-8');
@@ -422,16 +430,15 @@ function computeServerRecommendations(params: {
   }
 
   relevantData.push({
-    id: 'srv_rel_rice_corpus',
+    id: 'srv_rel_optical_composite',
     title:
       cloudCoveragePct >= 48
-        ? 'RICE2 Dense Cloud Reference Set'
-        : 'RICE1 Light Cloud Reference Set',
-    category: 'Matching Dataset',
-    sourceDataset:
-      cloudCoveragePct >= 48 ? 'RICE2 Dataset' : 'RICE1 Dataset',
+        ? 'Multi-Temporal Cloud-Free Composite'
+        : 'Atmospheric Haze & Cirrus Layer',
+    category: 'Optical Satellite Layer',
+    sourceDataset: 'Sentinel-2 / Landsat-8',
     relevanceScorePct: 94,
-    rationale: `Matches scenes with around ${cloudCoveragePct}% cloud cover.`,
+    rationale: `Provides clear multi-band surface observations for scenes with around ${cloudCoveragePct}% cloud cover.`,
     recommendedBands: 'RGB Satellite Imagery',
   });
 
@@ -698,7 +705,7 @@ async function startServer() {
         {
           step: 'Calculate Analytics & Serve Recommendations',
           actor: 'Server',
-          detail: `Computed land-cover distribution & ranked ${recommendations.similarImages.length} content-based RICE1/RICE2 matches.`,
+          detail: `Computed land-cover distribution & ranked ${recommendations.similarImages.length} matching satellite scenes.`,
         },
       ],
     };
@@ -749,7 +756,7 @@ async function startServer() {
 
     res.json({
       activeCheckpoint: 'gen_model_epoch_200.pth',
-      datasetsAvailable: ['RICE1 (500 Thin-Cloud Pairs)', 'RICE2 (736 Cumulus Triplets)'],
+      datasetsAvailable: ['Light Cloud Samples', 'Dense Cloud Samples'],
       totalRuns,
       rice1Runs,
       rice2Runs,
@@ -826,7 +833,7 @@ async function startServer() {
     const script = `"""
 Altaria — Satellite Cloud Removal & Recommendation System
 Architecture: Spatial Attention GAN (SpA-GAN) with gen_model_epoch_200.pth
-Datasets: RICE1 (Thin Cloud) & RICE2 (Dense Cumulus + Cloud Mask)
+Input: Optical RGB Satellite Imagery (Light Haze & Dense Cloud Scenes)
 """
 import torch
 import torch.nn as nn

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Check, Download, FileImage } from 'lucide-react';
+import { Check, Download } from 'lucide-react';
 import { OrbitalHorizonBackdrop, SatelliteLogoIcon } from './BrandMark';
 
 interface PipelineViewProps {
@@ -21,7 +21,7 @@ const SIMPLE_WORKFLOW = [
   {
     index: '01',
     title: 'Select or Upload Image',
-    description: 'Upload a satellite photo or choose a sample from the RICE1 or RICE2 dataset.',
+    description: 'Upload a satellite photo or choose one of the built-in sample satellite scenes.',
   },
   {
     index: '02',
@@ -42,7 +42,6 @@ const SIMPLE_WORKFLOW = [
 
 export function PipelineView({ onNavigateDashboard }: PipelineViewProps) {
   const [downloading, setDownloading] = useState(false);
-  const [showDiagram, setShowDiagram] = useState(false);
   const [adminStats, setAdminStats] = useState<AdminPipelineStats>({
     activeCheckpoint: 'gen_model_epoch_200.pth',
     datasetsAvailable: ['RICE1', 'RICE2'],
@@ -102,7 +101,7 @@ export function PipelineView({ onNavigateDashboard }: PipelineViewProps) {
                 </span>
               </div>
               <p className="mt-2 text-sm leading-relaxed text-[#C9DBEE]">
-                Satellite cloud removal, image comparison, and scene recommendations across RICE1, RICE2, and custom uploads.
+                Satellite cloud removal, attention mapping, image comparison, and scene recommendations.
               </p>
             </div>
 
@@ -123,14 +122,6 @@ export function PipelineView({ onNavigateDashboard }: PipelineViewProps) {
                 <Download className="h-3.5 w-3.5 text-[#38BDF8]" />
                 {downloading ? 'Downloading...' : 'Download Python Script'}
               </button>
-              <button
-                type="button"
-                onClick={() => setShowDiagram((v) => !v)}
-                className="flex items-center gap-1.5 rounded-lg border border-[#25466B] bg-[#091628]/90 px-4 py-2.5 text-xs font-medium text-[#DCE8F5] transition-colors hover:border-[#38BDF8] hover:text-white whitespace-nowrap shrink-0"
-              >
-                <FileImage className="h-3.5 w-3.5 text-[#38BDF8]" />
-                {showDiagram ? 'Hide Diagram' : 'View Use Case Diagram'}
-              </button>
             </div>
           </div>
 
@@ -142,9 +133,9 @@ export function PipelineView({ onNavigateDashboard }: PipelineViewProps) {
               </p>
             </div>
             <div className="rounded-lg border border-[#1E3856] bg-[#091628]/90 p-4">
-              <span className="text-xs text-[#88A2BE]">RICE1 / RICE2 Runs</span>
+              <span className="text-xs text-[#88A2BE]">Sample / Uploaded Runs</span>
               <p className="mt-1 font-mono text-lg font-semibold text-white tabular-nums">
-                {adminStats.rice1Runs} / {adminStats.rice2Runs}
+                {adminStats.rice1Runs + adminStats.rice2Runs} / {adminStats.customRuns}
               </p>
             </div>
             <div className="rounded-lg border border-[#1E3856] bg-[#091628]/90 p-4">
@@ -162,21 +153,6 @@ export function PipelineView({ onNavigateDashboard }: PipelineViewProps) {
           </div>
         </div>
       </div>
-
-      {showDiagram && (
-        <section className="rounded-xl border border-[#1A314D] bg-[#0B1829] p-6">
-          <h2 className="mb-4 text-base font-semibold text-white">
-            Use Case Diagram
-          </h2>
-          <div className="overflow-hidden rounded-lg border border-[#1E3856] bg-white p-3">
-            <img
-              src="/assets/aistudio/usecase_c1b5b16a.jpeg"
-              alt="System Use Case Diagram"
-              className="mx-auto max-h-[540px] w-auto object-contain"
-            />
-          </div>
-        </section>
-      )}
 
       {/* Simple 4-Step Summary */}
       <section className="rounded-xl border border-[#1A314D] bg-[#0B1829] p-6">

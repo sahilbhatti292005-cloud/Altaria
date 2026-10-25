@@ -37,12 +37,12 @@ export interface ScenePresetMeta {
 export const SCENE_PRESETS: ScenePresetMeta[] = [
   {
     id: 'bohemia_valley',
-    sampleCode: 'RICE1-014',
+    sampleCode: 'SAT-014',
     dataset: 'RICE1',
     title: 'Elbe River & Farmland Mosaic',
     region: 'Central Bohemia · Thin Cloud Veil',
     sensor: 'Landsat-8 OLI / Sentinel-2 RGB',
-    defaultFilePrefix: 'RICE1_014_elbe_valley.png',
+    defaultFilePrefix: 'sat_014_elbe_valley.png',
     seed: 17,
     cloudTarget: 0.38,
     fogTarget: 0.27,
@@ -50,12 +50,12 @@ export const SCENE_PRESETS: ScenePresetMeta[] = [
   },
   {
     id: 'rhine_delta',
-    sampleCode: 'RICE1-082',
+    sampleCode: 'SAT-082',
     dataset: 'RICE1',
     title: 'Rhine Agricultural Polder Grid',
     region: 'South Holland · Filmy Cirrus',
     sensor: 'Landsat-8 OLI / Optical RGB',
-    defaultFilePrefix: 'RICE1_082_rhine_polder.png',
+    defaultFilePrefix: 'sat_082_rhine_polder.png',
     seed: 109,
     cloudTarget: 0.34,
     fogTarget: 0.25,
@@ -63,12 +63,12 @@ export const SCENE_PRESETS: ScenePresetMeta[] = [
   },
   {
     id: 'coastal_estuary',
-    sampleCode: 'RICE1-195',
+    sampleCode: 'SAT-195',
     dataset: 'RICE1',
     title: 'Konkan Tidal Estuary & Sandbars',
     region: 'Western Coast · Marine Haze',
     sensor: 'Landsat-8 OLI / Optical RGB',
-    defaultFilePrefix: 'RICE1_195_coastal_estuary.png',
+    defaultFilePrefix: 'sat_195_coastal_estuary.png',
     seed: 193,
     cloudTarget: 0.41,
     fogTarget: 0.29,
@@ -76,12 +76,12 @@ export const SCENE_PRESETS: ScenePresetMeta[] = [
   },
   {
     id: 'amazon_canopy',
-    sampleCode: 'RICE2-041',
+    sampleCode: 'SAT-041',
     dataset: 'RICE2',
     title: 'Tapajos Tributary & Canopy',
     region: 'Para Basin · Dense Cumulus & Mask',
     sensor: 'Landsat-8 OLI/TIRS B4-B3-B2',
-    defaultFilePrefix: 'RICE2_041_amazon_canopy.png',
+    defaultFilePrefix: 'sat_041_amazon_canopy.png',
     seed: 43,
     cloudTarget: 0.52,
     fogTarget: 0.18,
@@ -89,12 +89,12 @@ export const SCENE_PRESETS: ScenePresetMeta[] = [
   },
   {
     id: 'bavaria_alpine',
-    sampleCode: 'RICE2-118',
+    sampleCode: 'SAT-118',
     dataset: 'RICE2',
     title: 'Upper Bavaria Pre-Alpine Valley',
     region: 'Southern Germany · Cumulus & Shadow',
     sensor: 'Landsat-8 OLI/TIRS B4-B3-B2',
-    defaultFilePrefix: 'RICE2_118_bavaria_alpine.png',
+    defaultFilePrefix: 'sat_118_bavaria_alpine.png',
     seed: 71,
     cloudTarget: 0.55,
     fogTarget: 0.21,
@@ -102,12 +102,12 @@ export const SCENE_PRESETS: ScenePresetMeta[] = [
   },
   {
     id: 'deccan_watershed',
-    sampleCode: 'RICE2-264',
+    sampleCode: 'SAT-264',
     dataset: 'RICE2',
     title: 'Pravara Irrigated Watershed',
     region: 'Deccan Plateau · Monsoon Cumulus',
     sensor: 'Landsat-8 OLI/TIRS B4-B3-B2',
-    defaultFilePrefix: 'RICE2_264_deccan_watershed.png',
+    defaultFilePrefix: 'sat_264_deccan_watershed.png',
     seed: 149,
     cloudTarget: 0.61,
     fogTarget: 0.23,
@@ -1966,15 +1966,15 @@ export function buildLocalRecommendations(params: {
   }
 
   relevantData.push({
-    id: 'rel_rice_benchmark',
+    id: 'rel_optical_composite',
     title:
       cloudCoveragePct >= 48
-        ? 'RICE2 Dense Cloud Reference Set'
-        : 'RICE1 Light Cloud Reference Set',
-    category: 'Matching Dataset',
-    sourceDataset: cloudCoveragePct >= 48 ? 'RICE2 Dataset' : 'RICE1 Dataset',
+        ? 'Multi-Temporal Cloud-Free Composite'
+        : 'Atmospheric Haze & Cirrus Layer',
+    category: 'Optical Satellite Layer',
+    sourceDataset: 'Sentinel-2 / Landsat-8',
     relevanceScorePct: 93,
-    rationale: `Matches satellite scenes with around ${cloudCoveragePct}% cloud cover.`,
+    rationale: `Provides clear multi-band surface observations for scenes with around ${cloudCoveragePct}% cloud cover.`,
     recommendedBands: 'RGB Satellite Imagery',
   });
 
